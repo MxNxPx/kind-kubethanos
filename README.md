@@ -12,20 +12,35 @@ kubethanos kills half of your pods randomly to engineer chaos in your preferred 
 
 ## Demo
 ```
+## (optional) build from dockerfile
+docker build -t docker.local/kubethanos:1.0 .
+docker save --output kubethanos.tar docker.local/kubethanos:1.0
+
 ## setup a cluster
 kind create cluster --config=./kind-config-1m2w-ingress.yaml
 
 ## deploy some innocent workload to the cluster
-kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=10
+kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=3
 
-## (optional) build from dockerfile
-docker build -t docker.local/kubethanos:1.0 .
-docker save --output kubethanos.tar docker.local/kubethanos:1.0
+## verify working
+kubectl get nodes -o wide
+kubectl -n default get deploy,pods -o wide
+
+## lets test some balancing at a node level
+watch kubectl -n default get deploy,pods -o wide
+kubectl drain kind-worker --ignore-daemonsets
+kubectl uncordon
 
 ## load the image into kind nodes
 kind load image-archive kubethanos.tar
 #or
 #kind load docker-image docker.local/kubethanos:1.0
+
+## scale up the innocent workload some more
+kubectl scale deployment/nginx --replicas=10
+
+## verify working
+kubectl -n default get deploy,pods -o wide
 
 ## deploy the yaml spec
 kubectl apply -f kubethanos.yaml
