@@ -18,11 +18,14 @@ kind create cluster --config=./kind-config-1m2w-ingress.yaml
 ## deploy some innocent workload to the cluster
 kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=10
 
-## (OPTIONAL) build from dockerfile
+## (optional) build from dockerfile
 docker build -t docker.local/kubethanos:1.0 .
+docker save --output kubethanos.tar docker.local/kubethanos:1.0
 
 ## load the image into kind nodes
-kind load docker-image docker.local/kubethanos:1.0
+kind load docker-image kubethanos.tar
+#or
+#kind load docker-image docker.local/kubethanos:1.0
 
 ## deploy the yaml spec
 kubectl apply -f kubethanos.yaml
