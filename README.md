@@ -13,7 +13,7 @@ kubethanos kills half of your pods randomly to engineer chaos in your preferred 
 ## Demo
 ```
 ## setup a cluster
-kind create cluster --config=$HOME/kind-config-1m2w-ingress.yaml
+kind create cluster --config=./kind-config-1m2w-ingress.yaml
 
 ## deploy some innocent workload to the cluster
 kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=10
