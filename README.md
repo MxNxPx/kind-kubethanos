@@ -46,7 +46,7 @@ kubectl -n default get deploy,pods -o wide
 kubectl apply -f kubethanos.yaml
 
 ## snap!
-kubectl -n default get deploy,po
+watch kubectl -n default get deploy,po -o wide
 kubectl -n kube-system logs deploy/thanoskube -f
 
 ##--------------
