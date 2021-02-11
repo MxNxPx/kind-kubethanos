@@ -28,6 +28,7 @@ kind load docker-image docker.local/kubethanos:1.0
 kubectl apply -f kubethanos.yaml
 
 ## snap!
+kubectl -n default get deploy,po
 kubectl -n kube-system logs deploy/thanoskube -f
 
 ##--------------
