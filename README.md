@@ -23,7 +23,7 @@ docker build -t docker.local/kubethanos:1.0 .
 docker save --output kubethanos.tar docker.local/kubethanos:1.0
 
 ## load the image into kind nodes
-kind load docker-image kubethanos.tar
+kind load image-archive kubethanos.tar
 #or
 #kind load docker-image docker.local/kubethanos:1.0
 
