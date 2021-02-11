@@ -4,14 +4,40 @@
 kubethanos kills half of your pods randomly to engineer chaos in your preferred environment, gives you the opportunity to see how your system behaves under failures. 
 
 ## Table of Contents
+- [Demo](#demo)
 - [Usage](#usage)
   * [Valid Parameters](#applying)
-- [Other Similar Projects](#other-similar-projects)  
 - [Acknowledgements](#acknowledgements)  
 - [Disclaimer](#disclaimer)  
-- [Contribute](#contribute)  
-- [Code of Conduct](#code-of-conduct)  
-- [License](#license)  
+
+## Demo
+```
+## setup a cluster
+kind create cluster --config=$HOME/kind-config-1m2w-ingress.yaml
+
+## deploy some innocent workload to the cluster
+kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=10
+
+## (OPTIONAL) build from dockerfile
+docker build -t docker.local/kubethanos:1.0 .
+
+## load the image into kind nodes
+kind load docker-image docker.local/kubethanos:1.0
+
+## deploy the yaml spec
+kubectl apply -f kubethanos.yaml
+
+## snap!
+kubectl -n kube-system logs deploy/thanoskube -f
+
+##--------------
+## APPENDIX
+##--------------
+## if using k3s, here is how to load the image into the cluster
+docker save --output kubethanos.tar docker.local/kubethanos:1.0
+sudo k3s ctr images import kubethanos.tar 
+
+```
 
 ## Usage
 
@@ -35,33 +61,14 @@ See the `kubethanos.yaml` file for an example run. Here are the list of valid pa
 
 * Configure kubernetes readiness & liveliness probes to `/healthz` endpoint.
 
-## Other similar projects
-
-* [chaosmonkey](https://github.com/Netflix/chaosmonkey)
-* [chaoskube](https://github.com/linki/chaoskube)
-* [kube-monkey](https://github.com/asobti/kube-monkey)
-* [PowerfulSeal](https://github.com/bloomberg/powerfulseal)
-* [fabric8's chaos monkey](https://fabric8.io/guide/chaosMonkey.html)
-* [k8aos](https://github.com/AlexsJones/k8aos)
-* [Cthulhu](https://github.com/xmatters/cthulhu-chaos-testing)
-* [KubeInvaders](https://github.com/lucky-sideburn/KubeInvaders)
 
 ## Acknowledgements
 
-* Thanks to [@linki](https://github.com/linki) [chaoskube](https://github.com/linki/chaoskube) for giving me the idea and having written something with a broader scope.
+* I built an implementation off of the original project here: https://github.com/berkay-dincer/kubethanos
+
 
 ## Disclaimer
 
 * You are responsible for your actions. If you break things in production while using this software I cannot help you to restore the damage caused.  
 
-## Contribute
 
-Any contributions are welcome! Please see the [contributing](CONTRIBUTING.md) file for details.
-
-## Code of Conduct
-
-Please check the [code of conduct](CODE_OF_CONDUCT.md) page for efficient collaboration and communication.
-
-## License
-
-This project licensed under [MIT](LICENSE).
