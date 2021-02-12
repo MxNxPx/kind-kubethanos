@@ -48,7 +48,7 @@ pe "kubectl scale deployment/nginx --replicas=10"
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## deploy the yaml spec
-pe "kubectl apply -f kubethanos-infinitywar.yaml"
+pe "sleep 30; kubectl apply -f kubethanos-infinitywar.yaml"
 
 ## snap!
 p "[*] in another window:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
@@ -56,11 +56,12 @@ p "[*] in another window:  kubectl -n kube-system logs deploy/thanoskube -f"
 
 ## what will happen this time?
 pe "kubectl apply -f kubethanos-endgame.yaml"
+p "[*] in another window:  kubectl -n kube-system logs deploy/thanoskube -f"
 
 PROMPT_TIMEOUT=0
 echo;echo
-MSG="DEMO COMPLETE!"
-COW="/usr/share/cowsay/cows/sheep.cow"
+MSG="THE WORK IS DONE."
+COW="./thanos.cow"
 pe "echo \$MSG | cowsay -f \$COW"
 
 p "kind delete cluster"
