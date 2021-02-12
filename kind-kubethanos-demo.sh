@@ -29,9 +29,12 @@ pe "kubectl create deployment nginx --image=nginx && kubectl scale deployment/ng
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## lets test draining a node
-p "[*] watch pods via:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
+p "[*] in another window:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
 pe "kubectl drain kind-worker --ignore-daemonsets"
 pe "kubectl uncordon kind-worker"
+
+echo;echo
+p "[.] kubethanos"
 
 ## load the image into kind nodes
 pe "kind load image-archive kubethanos.tar"
@@ -39,19 +42,20 @@ pe "kind load image-archive kubethanos.tar"
 #kind load docker-image docker.local/kubethanos:1.0
 
 ## scale up the innocent workload some more
-echo;echo
-p "[.] kubethanos"
 pe "kubectl scale deployment/nginx --replicas=10"
 
 ## verify working
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## deploy the yaml spec
-pe "kubectl apply -f kubethanos.yaml"
+pe "kubectl apply -f kubethanos-infinitywar.yaml"
 
 ## snap!
-p "[*] watch pods via:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
-pe "kubectl -n kube-system logs deploy/thanoskube -f"
+p "[*] in another window:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
+p "[*] in another window:  kubectl -n kube-system logs deploy/thanoskube -f"
+
+## what will happen this time?
+pe "kubectl apply -f kubethanos-endgame.yaml"
 
 PROMPT_TIMEOUT=0
 echo;echo

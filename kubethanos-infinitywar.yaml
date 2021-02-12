@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: thanoskube
+  namespace: kube-system
+  labels:
+    app: thanoskube
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: thanoskube
+  template:
+    metadata:
+      labels:
+        app: thanoskube
+    spec:
+      containers:
+        - name: thanoskube
+          image: docker.local/kubethanos:1.0
+          args:
+            - --interval=30s
+            - --namespaces=default
+            - --ratio=0.5
+            #- --ratio=1.0
+      serviceAccountName: thanoskube
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: thanoskube
+  namespace: kube-system
+  labels:
+    app: thanoskube
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: thanoskube-cluster-admin
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: thanoskube
+  namespace: kube-system
