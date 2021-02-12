@@ -18,7 +18,7 @@ docker save --output kubethanos.tar docker.local/kubethanos:1.0
 kind create cluster --config=./kind-config-1m2w-ingress.yaml
 
 ## deploy some innocent workload to the cluster
-kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=3
+kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=5
 
 ## verify working
 kubectl get nodes -o wide

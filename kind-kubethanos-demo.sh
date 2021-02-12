@@ -23,15 +23,15 @@ pe "kubectl get pods -A"
 ## try to deploy old deployment spec
 echo;echo
 p "[.] k8s deployment and pod placement"
-p "kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=3"
+pe "kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=5"
 
 ## verify working
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## lets test draining a node
 p "[*] watch pods via:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
-p "kubectl drain kind-worker --ignore-daemonsets"
-p "kubectl uncordon kind-worker"
+pe "kubectl drain kind-worker --ignore-daemonsets"
+pe "kubectl uncordon kind-worker"
 
 ## load the image into kind nodes
 pe "kind load image-archive kubethanos.tar"
@@ -47,11 +47,11 @@ pe "kubectl scale deployment/nginx --replicas=10"
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## deploy the yaml spec
-p "kubectl apply -f kubethanos.yaml"
+pe "kubectl apply -f kubethanos.yaml"
 
 ## snap!
 p "[*] watch pods via:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
-p "kubectl -n kube-system logs deploy/thanoskube -f"
+pe "kubectl -n kube-system logs deploy/thanoskube -f"
 
 PROMPT_TIMEOUT=0
 echo;echo
