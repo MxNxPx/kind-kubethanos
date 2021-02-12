@@ -26,10 +26,10 @@ kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx 
 kubectl get nodes -o wide
 kubectl -n default get deploy,pods -o wide
 
-## lets test some balancing at a node level
-watch kubectl -n default get deploy,pods -o wide
+## lets test draining a node
+watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'
 kubectl drain kind-worker --ignore-daemonsets
-kubectl uncordon
+kubectl uncordon kind-worker
 
 ## load the image into kind nodes
 kind load image-archive kubethanos.tar
@@ -46,7 +46,7 @@ kubectl -n default get deploy,pods -o wide
 kubectl apply -f kubethanos.yaml
 
 ## snap!
-watch kubectl -n default get deploy,po -o wide
+watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'
 kubectl -n kube-system logs deploy/thanoskube -f
 
 ##--------------
