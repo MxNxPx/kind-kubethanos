@@ -47,16 +47,17 @@ pe "kubectl -n default scale deployment/nginx --replicas=10; kubectl -n default 
 ## verify working
 pe "kubectl -n default get deploy,pods -o wide"
 
-## deploy the yaml spec
-pe "sleep 30; kubectl apply -f kubethanos-infinitywar.yaml"
-
-## snap!
+## prepare for the snap!
 p "[*] in another window:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
-p "[*] in another window:  kubectl -n kube-system logs deploy/thanoskube -f"
+p "[*] in another window (execute after deploying kubethanos):  kubectl -n kube-system logs deploy/thanoskube -f"
+
+## deploy the yaml spec
+pe "kubectl apply -f kubethanos-infinitywar.yaml; kubectl -n kube-system wait deploy/thanoskube --for=condition=available --timeout=120s"
 
 ## what will happen this time?
+pe "kubectl delete -f kubethanos-infinitywar.yaml"
+p "[*] in another window (execute after re-deploying kubethanos):  kubectl -n kube-system logs deploy/thanoskube -f"
 pe "kubectl apply -f kubethanos-endgame.yaml"
-p "[*] in another window:  kubectl -n kube-system logs deploy/thanoskube -f"
 
 PROMPT_TIMEOUT=0
 echo;echo
