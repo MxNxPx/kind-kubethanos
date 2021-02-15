@@ -23,7 +23,7 @@ pe "kubectl get pods -A"
 ## try to deploy old deployment spec
 echo;echo
 p "[.] k8s deployment and pod placement"
-pe "kubectl create deployment nginx --image=nginx && kubectl scale deployment/nginx --replicas=5"
+pe "kubectl -n default create deployment nginx --image=nginx && kubectl -n default scale deployment/nginx --replicas=5; kubectl -n default wait deploy/nginx --for=condition=available --timeout=120s"
 
 ## verify working
 pe "kubectl -n default get deploy,pods -o wide"
@@ -42,7 +42,7 @@ pe "kind load image-archive kubethanos.tar"
 #kind load docker-image docker.local/kubethanos:1.0
 
 ## scale up the innocent workload some more
-pe "kubectl scale deployment/nginx --replicas=10"
+pe "kubectl -n default scale deployment/nginx --replicas=10; kubectl -n default wait deploy/nginx --for=condition=available --timeout=120s"
 
 ## verify working
 pe "kubectl -n default get deploy,pods -o wide"
