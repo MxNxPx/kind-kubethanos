@@ -5,16 +5,16 @@ echo;echo
 PROMPT_TIMEOUT=0.1
 MSG="LET'S GET THIS DEMO STARTED..."
 COW="/usr/share/cowsay/cows/default.cow"
-pe "echo \$MSG | cowsay -f \$COW"
+pei "echo \$MSG | cowsay -f \$COW"
 
 ## create kind cluster
 echo;echo
 PROMPT_TIMEOUT=0
 p "[.] kind"
-pe "kubectl cluster-info"
-pe "docker ps"
-pe "time (kind create cluster --config ./kind-config-1m2w-ingress.yaml --image kindest/node:v1.18.2 --wait 5m && kubectl wait --timeout=5m --for=condition=Ready nodes --all)"
-pe "docker ps -a --format \"table {{.Names}}\\\t{{.Image}}\\\t{{.Status}}\""
+pei "kubectl cluster-info"
+pei "docker ps"
+pei "time (kind create cluster --config ./kind-config-1m2w-ingress.yaml --image kindest/node:v1.18.2 --wait 5m && kubectl wait --timeout=5m --for=condition=Ready nodes --all)"
+pei "docker ps -a --format \"table {{.Names}}\\\t{{.Image}}\\\t{{.Status}}\""
 
 ## view cluster status
 pe "kubectl get nodes -o wide"
