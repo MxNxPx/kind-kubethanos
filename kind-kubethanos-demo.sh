@@ -1,7 +1,7 @@
 #!/bin/bash
 
 . ./demo-magic.sh
-echo;echo
+clear;echo;echo;
 PROMPT_TIMEOUT=0.1
 MSG="LET'S GET THIS DEMO STARTED..."
 COW="/usr/share/cowsay/cows/default.cow"
@@ -29,7 +29,7 @@ pe "kubectl -n default create deployment nginx --image=nginx && kubectl -n defau
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## lets test draining a node
-p "[*] in another window:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
+p "[*] in another window:  watch -t 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
 pe "kubectl drain kind-worker --ignore-daemonsets"
 pe "kubectl uncordon kind-worker"
 
@@ -48,7 +48,7 @@ pe "kubectl -n default scale deployment/nginx --replicas=10; kubectl -n default 
 pe "kubectl -n default get deploy,pods -o wide"
 
 ## prepare for the snap!
-p "[*] in another window:  watch 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
+p "[*] in another window:  watch -t 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
 p "[*] in another window (execute after deploying kubethanos):  kubectl -n kube-system logs deploy/thanoskube -f"
 
 ## deploy the yaml spec
