@@ -5,7 +5,7 @@ clear;echo;echo;
 PROMPT_TIMEOUT=0
 MSG="LET'S GET THIS DEMO STARTED..."
 COW="/usr/share/cowsay/cows/default.cow"
-pei "echo \$MSG | cowsay -f \$COW"
+pe "echo \$MSG | cowsay -f \$COW"
 
 ## create kind cluster
 echo;echo
