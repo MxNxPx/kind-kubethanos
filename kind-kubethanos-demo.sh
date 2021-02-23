@@ -2,14 +2,13 @@
 
 . ./demo-magic.sh
 clear;echo;echo;
-PROMPT_TIMEOUT=0.1
+PROMPT_TIMEOUT=0
 MSG="LET'S GET THIS DEMO STARTED..."
 COW="/usr/share/cowsay/cows/default.cow"
 pei "echo \$MSG | cowsay -f \$COW"
 
 ## create kind cluster
 echo;echo
-PROMPT_TIMEOUT=0
 p "[.] kind"
 pei "kubectl cluster-info"
 pei "docker ps"
