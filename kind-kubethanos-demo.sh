@@ -30,6 +30,10 @@ pe "kubectl -n default apply -f nginx-deployment.yaml; kubectl -n default wait d
 ## verify working
 pe "kubectl -n default get deploy,pods -o wide"
 
+## oops, applied it again, what is the expected output
+pe "kubectl -n default apply -f nginx-deployment.yaml"
+pe "kubectl -n default get deploy,pods -o wide"
+
 ## lets test draining a node
 p "[*] in another window:  watch -t 'kubectl get -n default deploy; echo; kubectl -n default get pods -o wide --sort-by=.status.startTime'"
 pe "kubectl drain kind-worker --ignore-daemonsets"
