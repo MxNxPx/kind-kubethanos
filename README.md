@@ -1,6 +1,9 @@
 # kubethanos
 kubethanos kills half of your pods randomly to engineer chaos in your preferred environment, gives you the opportunity to see how your system behaves under failures. 
 
+## Katacoda
+https://katacoda.com/mxnxpx/courses/kubernetes/kubethanos-kind
+
 ## Recorded Demo
 ![kubethanos in action](./kind-kubethanos-demo.gif)
 
