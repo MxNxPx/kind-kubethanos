@@ -41,7 +41,7 @@ pe "kubectl drain kind-worker --ignore-daemonsets"
 pe "kubectl uncordon kind-worker"
 
 echo;echo
-p "[.] kubenetes chaos engineering"
+p "[.] kubernetes chaos engineering"
 
 ## load the image into kind nodes
 pei "kind load image-archive kubethanos.tar"
