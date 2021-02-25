@@ -1,8 +1,19 @@
 # kubethanos
 kubethanos kills half of your pods randomly to engineer chaos in your preferred environment, gives you the opportunity to see how your system behaves under failures. 
 
-## Katacoda
+## Demo in cloud using Katacoda
 https://katacoda.com/mxnxpx/courses/kubernetes/kubethanos-kind
+
+## Demo locally using Multipass
+```
+#launch multipass
+bash multipass-setup.sh
+#shell in
+multipass shell ubuntu-multipass-kubethanos
+#change directories to mount and launch demo
+cd kind-kubethanos
+bash kind-kubethanos-demo.sh 
+```
 
 ## Recorded Demo
 ![kubethanos in action](./kind-kubethanos-demo.gif)
